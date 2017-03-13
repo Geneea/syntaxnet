@@ -26,6 +26,17 @@ WORKDIR $SYNTAXNETDIR/models/syntaxnet
 
 CMD [ "sh", "-c", "echo 'Bob brought the pizza to Alice.' | syntaxnet/demo.sh" ]
 
+RUN cd $SYNTAXNETDIR/models/syntaxnet/syntaxnet/models/parsey_universal/ \
+    && wget http://download.tensorflow.org/models/parsey_universal/Czech.zip \
+    && unzip Czech.zip \
+    && wget http://download.tensorflow.org/models/parsey_universal/Russian-SynTagRus.zip \
+    && unzip Russian-SynTagRus.zip
+
+WORKDIR $SYNTAXNETDIR/models/syntaxnet/
+
+CMD [ "sh", "-c", "echo 'Bob přinesl Alici pizzu.' | syntaxnet/models/parsey_universal/parse.sh syntaxnet/models/parsey_universal/Czech" ]
+
+
 # COMMANDS to build and run
 # ===============================
 # mkdir build && cp Dockerfile build/ && cd build
